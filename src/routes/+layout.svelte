@@ -1,53 +1,68 @@
-<script>
-	import Header from './Header.svelte';
+<script lang="ts">
 	import './styles.css';
+	import { isLoggedIn, user } from '../stores/auth';
+	import { auth } from '../lib/firebase';
+	import { signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+	import { goto } from '$app/navigation';
+
+	const loginWithGoogle = async () => {
+		try {
+			const provider = new GoogleAuthProvider();
+			const res = await signInWithPopup(auth, provider);
+			$user = res.user;
+			$isLoggedIn = true;
+			goto('/');
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const logout = async () => {
+		try {
+			await signOut(auth);
+			$isLoggedIn = false;
+			$user = {};
+			/* goto('/'); */
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	onAuthStateChanged(auth, (authUser) => {
+		$user = authUser;
+		$isLoggedIn = !!authUser;
+	});
 </script>
 
-<div class="app">
-	<Header />
-
-	<main>
-		<slot />
-	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
+<div class="container">
+	<nav>
+		<a href="/"> Note </a>
+		{#if !$isLoggedIn}
+			<a href="/" on:click={loginWithGoogle}> SignIn </a>
+		{:else}
+			Notes by {$user.displayName}
+			<a href="/" on:click={logout}> SignOut </a>
+		{/if}
+	</nav>
+	<slot />
 </div>
 
 <style>
-	.app {
+	nav {
 		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
+		justify-content: space-between;
+		background-color: #222;
 		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
+		border-radius: 0.5rem;
+		position: sticky;
 	}
 
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
+	a {
+		text-decoration: none;
+		color: white;
 	}
 
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
+	.container {
+		padding: 1rem;
 	}
 </style>

@@ -1,59 +1,58 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import { isLoggedIn } from '../stores/auth';
+	import CardList from './CardList.svelte';
+
+	let notes: string[] = [];
+	/* let note = { title: '', body: '' }; */
+	let note = '';
+
+	const addNote = () => {
+		/* note = { title: '', body: '' }; */
+		notes = [note, ...notes];
+		note = '';
+		console.log(notes);
+	};
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
-
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
+{#if $isLoggedIn}
+	<div class="container">
+		<div class="add-note">
+			<input type="text" bind:value={note} />
+			<button on:click={addNote}> Add Note </button>
+		</div>
+		<div>
+			<CardList {notes} />
+		</div>
+	</div>
+{:else}
+	<h1>Login to use the web app</h1>
+{/if}
 
 <style>
-	section {
+	.container {
+		padding-top: 2rem;
 		display: flex;
 		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.add-note {
+		display: flex;
+		gap: 1rem;
 		justify-content: center;
-		align-items: center;
-		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
+	input {
+		background-color: #222;
+		border: none;
+		width: 50%;
+		border-radius: 0.5rem;
+		color: white;
+		padding: 0.5rem;
 	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	input:focus {
+		border: 2px solid #333;
+		outline: none;
+		background-color: #111;
 	}
 </style>
