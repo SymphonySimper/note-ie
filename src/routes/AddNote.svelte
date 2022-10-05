@@ -13,7 +13,6 @@
 	};
 
 	let expand = false;
-	$: expand && console.log(!expand, expand);
 
 	let lineCount: number;
 	let rows: number;
