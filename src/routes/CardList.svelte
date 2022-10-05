@@ -11,6 +11,7 @@
 
 	const getDocu = async () => {
 		if ($isLoggedIn) {
+			$notes = [];
 			let q = query(collection(db, 'notes'), where('uid', '==', $user.uid));
 			let noteSnap = await getDocs(q);
 			noteSnap.forEach((doc) => {
@@ -29,9 +30,7 @@
 </script>
 
 <div>
-	{#if $notes.length == 0}
-		<h1>No notes found</h1>
-	{:else}
+	{#if $notes.length != 0}
 		{#each $notes as note, id (id)}
 			<div transition:fade={{ duration: 400 }} animate:flip={{ duration: 400 }}>
 				<Card title={note.title} note={note.note} />
