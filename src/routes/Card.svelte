@@ -1,9 +1,10 @@
 <script lang="ts">
 	export let note: string;
+	export let title: string;
 </script>
 
 <div>
-	<p>Title</p>
+	<h4>{title}</h4>
 	<hr />
 	<p>{note}</p>
 </div>
@@ -16,7 +17,7 @@
 		background-color: #111;
 		border: 1px solid #222;
 		border-radius: 0.5rem;
-		overflow: hidden;
+		/* overflow: hidden; */
 		padding: 1rem;
 	}
 
@@ -29,6 +30,13 @@
 		line-height: 1.5rem;
 		-webkit-line-clamp: 7;
 		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	h4 {
+		max-width: 14rem;
+		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}

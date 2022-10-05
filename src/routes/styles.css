@@ -1,14 +1,15 @@
+:root {
+	margin: 0;
+	padding: 0;
+	background-color: #111;
+	color: white;
+	font-family: sans-serif;
+}
+
 button {
 	background-color: #222;
 	color: white;
 	padding: 1rem;
 	border: none;
 	border-radius: 0.5rem;
-}
-
-:root {
-	margin: 0;
-	padding: 0;
-	background-color: #111;
-	color: white;
 }
