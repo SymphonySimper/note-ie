@@ -4,7 +4,7 @@
 	import { user, isLoggedIn } from '../stores/auth';
 	import { notes } from '../stores/notes';
 	import type { Note } from '$lib/types';
-	import { afterUpdate } from 'svelte';
+	import InputFields from './InputFields.svelte';
 
 	let note: Note = {
 		title: '',
@@ -13,19 +13,6 @@
 	};
 
 	let expand = false;
-
-	let lineCount: number;
-	let rows: number;
-	afterUpdate(() => {
-		lineCount = note.note.split('\n').length;
-		if (lineCount > 20) {
-			rows = 20;
-		} else if (lineCount > 5) {
-			rows = lineCount;
-		} else {
-			rows = 5;
-		}
-	});
 
 	const onClose = () => {
 		expand = !expand;
@@ -61,26 +48,7 @@
 		{#if !expand}
 			<div on:click={() => (expand = true)} class="fake-input">Add a note</div>
 		{:else}
-			<form on:submit|preventDefault={onSumbit} class="form">
-				<input
-					class="input"
-					type="text"
-					bind:value={note.title}
-					placeholder="Add a title"
-					autofocus
-				/>
-				<textarea
-					class="input"
-					type="text"
-					bind:value={note.note}
-					placeholder="Add a note"
-					{rows}
-				/>
-				<div class="buttons">
-					<button type="reset" on:click={onClose} class="close-btn"> Close </button>
-					<button type="submit" disabled={note.note.length == 0 ? true : false}> Add </button>
-				</div>
-			</form>
+			<InputFields {onSumbit} {onClose} {note} />
 		{/if}
 	</div>
 </div>
@@ -98,53 +66,5 @@
 		padding: 1rem;
 		border-radius: 0.5rem;
 		color: #888;
-	}
-
-	.form {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		background-color: #111;
-		border-radius: 0.5rem;
-		border: 1px solid #222;
-		padding: 1rem;
-	}
-
-	.buttons {
-		display: flex;
-		justify-content: flex-end;
-		gap: 1rem;
-	}
-
-	.close-btn {
-		background-color: #111;
-		border: 2px solid #222;
-	}
-
-	button:disabled {
-		background-color: #111;
-		color: #222;
-	}
-
-	.input {
-		background-color: #222;
-		border: none;
-		width: 50vw;
-		border-radius: 0.5rem;
-		color: white;
-		padding: 1rem;
-		border: 2px solid #222;
-		font-family: sans-serif;
-		font-size: 1rem;
-	}
-
-	.input:focus {
-		border: 2px solid #333;
-		outline: none;
-		background-color: #111;
-	}
-
-	textarea {
-		resize: none;
 	}
 </style>
