@@ -9,7 +9,10 @@
 		try {
 			const provider = new GoogleAuthProvider();
 			const res = await signInWithPopup(auth, provider);
-			$user = res.user;
+			$user = {
+				uid: res.user.uid,
+				displayName: res.user.displayName ?? ''
+			};
 			$isLoggedIn = true;
 			goto('/');
 		} catch (err) {
@@ -21,7 +24,10 @@
 		try {
 			await signOut(auth);
 			$isLoggedIn = false;
-			$user = {};
+			$user = {
+				uid: '',
+				displayName: ''
+			};
 			/* goto('/'); */
 		} catch (err) {
 			console.error(err);
@@ -29,7 +35,12 @@
 	};
 
 	onAuthStateChanged(auth, (authUser) => {
-		$user = authUser;
+		if ($isLoggedIn && !!authUser) {
+			$user = {
+				uid: authUser.uid,
+				displayName: authUser.displayName ?? ''
+			};
+		}
 		$isLoggedIn = !!authUser;
 	});
 </script>
