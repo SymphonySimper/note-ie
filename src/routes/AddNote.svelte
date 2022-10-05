@@ -39,6 +39,12 @@
 
 	const onSumbit = async () => {
 		if ($isLoggedIn == true) {
+			note = {
+				title: note.title,
+				note: note.note,
+				uid: $user.uid
+			};
+
 			$notes = [note, ...$notes];
 			await addDoc(collection(db, 'notes'), note);
 			note = {
