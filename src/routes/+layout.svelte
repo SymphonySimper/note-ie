@@ -9,6 +9,7 @@
 		try {
 			const provider = new GoogleAuthProvider();
 			const res = await signInWithPopup(auth, provider);
+			/* $user = res.user; */
 			$user = {
 				uid: res.user.uid,
 				displayName: res.user.displayName ?? ''
@@ -35,7 +36,7 @@
 	};
 
 	onAuthStateChanged(auth, (authUser) => {
-		if ($isLoggedIn && !!authUser) {
+		if (!!authUser) {
 			$user = {
 				uid: authUser.uid,
 				displayName: authUser.displayName ?? ''
