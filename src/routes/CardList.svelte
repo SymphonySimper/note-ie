@@ -33,7 +33,7 @@
 	{#if $notes.length != 0}
 		{#each $notes as note, id (id)}
 			<div transition:fade={{ duration: 400 }} animate:flip={{ duration: 400 }}>
-				<Card title={note.title} note={note.note} />
+				<Card {note} {id} />
 			</div>
 		{/each}
 	{/if}

@@ -4,7 +4,7 @@
 
 	export let note: Note;
 	export let onClose: () => void;
-	export let onSumbit: () => void;
+	export let onSubmit: () => void;
 	export let primaryButtonTitle: string = 'Add';
 
 	let lineCount: number;
@@ -23,7 +23,7 @@
 
 <div>
 	<div class="add-note">
-		<form on:submit|preventDefault={onSumbit} class="form">
+		<form on:submit|preventDefault={onSubmit} class="form">
 			<input
 				class="input"
 				type="text"
@@ -63,6 +63,9 @@
 		display: flex;
 		justify-content: flex-end;
 		gap: 1rem;
+
+		/* required by svelte-modals to enable on:click */
+		pointer-events: auto;
 	}
 
 	.close-btn {
@@ -85,6 +88,9 @@
 		border: 2px solid #222;
 		font-family: sans-serif;
 		font-size: 1rem;
+
+		/* required by svelte-modals to enable on:click */
+		pointer-events: auto;
 	}
 
 	.input:focus {

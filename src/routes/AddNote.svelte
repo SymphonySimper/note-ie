@@ -23,7 +23,7 @@
 		};
 	};
 
-	const onSumbit = async () => {
+	const onSubmit = async () => {
 		if ($isLoggedIn == true) {
 			note = {
 				title: note.title,
@@ -48,7 +48,7 @@
 		{#if !expand}
 			<div on:click={() => (expand = true)} class="fake-input">Add a note</div>
 		{:else}
-			<InputFields {onSumbit} {onClose} {note} />
+			<InputFields {onSubmit} {onClose} {note} />
 		{/if}
 	</div>
 </div>

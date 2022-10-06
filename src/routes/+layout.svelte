@@ -4,6 +4,7 @@
 	import { auth } from '../lib/firebase';
 	import { signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
+	import { Modals, closeModal } from 'svelte-modals';
 
 	const loginWithGoogle = async () => {
 		try {
@@ -59,6 +60,10 @@
 	<slot />
 </div>
 
+<Modals>
+	<div class="backdrop" slot="backdrop" on:click={closeModal} />
+</Modals>
+
 <style>
 	nav {
 		display: flex;
@@ -76,5 +81,14 @@
 
 	.container {
 		padding: 1rem;
+	}
+
+	.backdrop {
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: #11111180;
+		width: 100vw;
+		height: 100vh;
 	}
 </style>

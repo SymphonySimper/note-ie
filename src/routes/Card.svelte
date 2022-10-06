@@ -1,16 +1,27 @@
 <script lang="ts">
-	export let note: string;
-	export let title: string;
+	export let note: Note;
+
+	import type { Note } from '$lib/types';
+	import { openModal } from 'svelte-modals';
+	import InputFieldsModal from './InputFieldsModal.svelte';
+
+	const onSubmit = () => {
+		console.log('Close');
+	};
+
+	const handleClick = () => {
+		openModal(InputFieldsModal, { onSubmit, note });
+	};
 </script>
 
-<div>
-	<h4>{title}</h4>
+<div class="card" on:click={handleClick}>
+	<h4>{note.title}</h4>
 	<hr />
-	<p>{note}</p>
+	<p>{note.note}</p>
 </div>
 
 <style>
-	div {
+	.card {
 		aspect-ratio: 1/1;
 		height: 16rem;
 		width: 16rem;
