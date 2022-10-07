@@ -2,13 +2,15 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
+import { PUBLIC_API_KEY, PUBLIC_AUTH_DOMAIN, PUBLIC_PROJECT_ID, PUBLIC_STORAGE_BUCKET, PUBLIC_MESSAGING_SENDER_ID, PUBLIC_APP_ID } from '$env/static/public'
+
 const firebaseConfig = {
-	apiKey: 'AIzaSyByTeUyiJFWnZF0TBHMurpyevd9kODKLw4',
-	authDomain: 'note-c2de3.firebaseapp.com',
-	projectId: 'note-c2de3',
-	storageBucket: 'note-c2de3.appspot.com',
-	messagingSenderId: '271207812626',
-	appId: '1:271207812626:web:8c260b4148daf01628d2cb'
+	apiKey: PUBLIC_API_KEY,
+	authDomain: PUBLIC_AUTH_DOMAIN,
+	projectId: PUBLIC_PROJECT_ID,
+	storageBucket: PUBLIC_STORAGE_BUCKET,
+	messagingSenderId: PUBLIC_MESSAGING_SENDER_ID,
+	appId: PUBLIC_APP_ID
 }
 
 export const app = initializeApp(firebaseConfig)
