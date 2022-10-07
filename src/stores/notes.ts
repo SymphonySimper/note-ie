@@ -1,9 +1,4 @@
 import { writable } from 'svelte/store'
-
-type Note = {
-	title: string
-	note: string
-	uid: string
-}
+import type { Note } from '$lib/types'
 
 export const notes = writable([] as Note[])

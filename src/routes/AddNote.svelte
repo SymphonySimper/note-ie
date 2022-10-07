@@ -5,11 +5,12 @@
 	import { notes } from '../stores/notes';
 	import type { Note } from '$lib/types';
 	import InputFields from './InputFields.svelte';
+	import getTime from '$lib/time';
 
 	let note: Note = {
 		title: '',
 		note: '',
-		uid: ''
+		time: 0
 	};
 
 	let expand = false;
@@ -19,24 +20,25 @@
 		note = {
 			title: '',
 			note: '',
-			uid: $user.uid
+			time: 0
 		};
 	};
 
 	const onSubmit = async () => {
 		if ($isLoggedIn == true) {
+			let time: number = getTime();
 			note = {
 				title: note.title,
 				note: note.note,
-				uid: $user.uid
+				time
 			};
 
 			$notes = [note, ...$notes];
-			await addDoc(collection(db, 'notes'), note);
+			await addDoc(collection(db, 'users', $user.uid, 'notes'), note);
 			note = {
 				title: '',
 				note: '',
-				uid: $user.uid
+				time: 0
 			};
 			expand = !expand;
 		}

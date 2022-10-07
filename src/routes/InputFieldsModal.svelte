@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { closeModal } from 'svelte-modals';
+
 	import InputFields from './InputFields.svelte';
 	import type { Note } from '$lib/types';
 
@@ -7,7 +8,7 @@
 	/* export let onClose: () => void; */
 	export let onSubmit: () => void;
 	export let note: Note;
-	export let primaryButtonTitle: string = "Update";
+	export let primaryButtonTitle: string = 'Update';
 
 	const onModalClose = () => {
 		/* onClose(); */

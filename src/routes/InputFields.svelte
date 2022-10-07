@@ -9,7 +9,7 @@
 
 	let lineCount: number;
 	let rows: number;
-	afterUpdate(() => {
+	const setCount = () => {
 		lineCount = note.note.split('\n').length;
 		if (lineCount > 20) {
 			rows = 20;
@@ -18,7 +18,8 @@
 		} else {
 			rows = 5;
 		}
-	});
+	};
+	afterUpdate(setCount);
 </script>
 
 <div>
@@ -31,7 +32,14 @@
 				placeholder="Add a title"
 				autofocus
 			/>
-			<textarea class="input" type="text" bind:value={note.note} placeholder="Add a note" {rows} />
+			<textarea
+				class="input"
+				type="text"
+				bind:value={note.note}
+				placeholder="Add a note"
+				{rows}
+				wrap="hard"
+			/>
 			<div class="buttons">
 				<button type="reset" on:click={onClose} class="close-btn"> Close </button>
 				<button type="submit" disabled={note.note.length == 0 ? true : false}>

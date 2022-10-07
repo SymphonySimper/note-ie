@@ -3,37 +3,34 @@
 	import { fade } from 'svelte/transition';
 	import { notes } from '../stores/notes';
 	import Card from './Card.svelte';
-	import { collection, query, where, getDocs } from 'firebase/firestore';
+	import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
 	import type { Note } from '$lib/types';
 	import { db } from '$lib/firebase';
 
-	import { isLoggedIn, user } from '../stores/auth';
+	import { user } from '../stores/auth';
+	import { onDestroy } from 'svelte';
 
-	const getDocu = async () => {
-		if ($isLoggedIn) {
-			$notes = [];
-			let q = query(collection(db, 'notes'), where('uid', '==', $user.uid));
-			let noteSnap = await getDocs(q);
-			noteSnap.forEach((doc) => {
-				let note: Note = {
-					title: doc.data().title,
-					note: doc.data().note,
-					uid: doc.data().uid
-				};
+	const q = query(collection(db, 'users', $user.uid, 'notes'), orderBy('time'));
+	const unsub = onSnapshot(q, (querySnapshot) => {
+		$notes = [];
+		querySnapshot.forEach((doc) => {
+			let note: Note = {
+				title: doc.data().title,
+				note: doc.data().note,
+				time: doc.data().time ?? 0
+			};
+			$notes = [note, ...$notes];
+		});
+	});
 
-				$notes = [note, ...$notes];
-			});
-		}
-	};
-
-	$: $isLoggedIn && getDocu();
+	onDestroy(unsub);
 </script>
 
 <div>
 	{#if $notes.length != 0}
 		{#each $notes as note, id (id)}
 			<div transition:fade={{ duration: 400 }} animate:flip={{ duration: 400 }}>
-				<Card {note} {id} />
+				<Card {note} />
 			</div>
 		{/each}
 	{/if}
@@ -45,7 +42,5 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		/* display: grid; */
-		/* grid-template-columns: repeat(4, 1fr); */
 	}
 </style>
