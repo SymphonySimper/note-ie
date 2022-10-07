@@ -49,7 +49,7 @@
 
 <div class="container">
 	<nav>
-		<a href="/"> Note </a>
+		<a href="/"> Note-ie </a>
 		{#if !$isLoggedIn}
 			<a href="/" on:click={loginWithGoogle}> SignIn </a>
 		{:else}
