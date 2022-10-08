@@ -2,33 +2,10 @@
 	import './styles.css';
 	import { isLoggedIn, user } from '../stores/auth';
 	import { auth } from '../lib/firebase';
-	import {
-		signOut,
-		signInWithRedirect,
-		GoogleAuthProvider,
-		onAuthStateChanged,
-		getRedirectResult
-	} from 'firebase/auth';
+	import { signOut, onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { Modals, closeModal } from 'svelte-modals';
-
-	const loginWithGoogle = async () => {
-		const provider = new GoogleAuthProvider();
-		/* const res = await signInWithPopup(auth, provider); */
-		await signInWithRedirect(auth, provider);
-		getRedirectResult(auth)
-			.then((res) => {
-				$user = {
-					uid: res?.user.uid ?? '',
-					displayName: res?.user.displayName ?? ''
-				};
-				$isLoggedIn = true;
-				/* goto('/'); */
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+	import { browser } from '$app/environment';
 
 	const logout = async () => {
 		try {
@@ -38,7 +15,6 @@
 				uid: '',
 				displayName: ''
 			};
-			/* goto('/'); */
 		} catch (err) {
 			console.error(err);
 		}
@@ -50,23 +26,24 @@
 				uid: authUser.uid,
 				displayName: authUser.displayName ?? ''
 			};
+
+			browser && goto('/');
+		} else {
+			browser && goto('/signin');
 		}
 		$isLoggedIn = !!authUser;
 	});
 </script>
 
 <div class="container">
+{#if $isLoggedIn}
 	<nav>
 		<a href="/"> Note-ie </a>
-		{#if !$isLoggedIn}
-			<a href="/" on:click={loginWithGoogle}> SignIn </a>
-		{:else}
-			Notes by {$user.displayName}
-			<a href="/" on:click={logout}> SignOut </a>
-		{/if}
+		<a on:click={logout} href="/signin">SignOut </a>
 	</nav>
-	<slot />
 </div>
+{/if}
+<slot />
 
 <Modals>
 	<div class="backdrop" slot="backdrop" on:click={closeModal} />
@@ -80,6 +57,7 @@
 		padding: 1rem;
 		border-radius: 0.5rem;
 		position: sticky;
+		margin: 1rem;
 	}
 
 	a {
@@ -90,7 +68,6 @@
 	.container {
 		padding: 1rem;
 	}
-
 	.backdrop {
 		position: fixed;
 		top: 0;
