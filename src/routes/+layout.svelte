@@ -2,24 +2,32 @@
 	import './styles.css';
 	import { isLoggedIn, user } from '../stores/auth';
 	import { auth } from '../lib/firebase';
-	import { signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+	import {
+		signOut,
+		signInWithRedirect,
+		GoogleAuthProvider,
+		onAuthStateChanged,
+		getRedirectResult
+	} from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { Modals, closeModal } from 'svelte-modals';
 
 	const loginWithGoogle = async () => {
-		try {
-			const provider = new GoogleAuthProvider();
-			const res = await signInWithPopup(auth, provider);
-			/* $user = res.user; */
-			$user = {
-				uid: res.user.uid,
-				displayName: res.user.displayName ?? ''
-			};
-			$isLoggedIn = true;
-			goto('/');
-		} catch (err) {
-			console.error(err);
-		}
+		const provider = new GoogleAuthProvider();
+		/* const res = await signInWithPopup(auth, provider); */
+		await signInWithRedirect(auth, provider);
+		getRedirectResult(auth)
+			.then((res) => {
+				$user = {
+					uid: res?.user.uid ?? '',
+					displayName: res?.user.displayName ?? ''
+				};
+				$isLoggedIn = true;
+				/* goto('/'); */
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	const logout = async () => {
