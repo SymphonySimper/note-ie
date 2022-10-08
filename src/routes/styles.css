@@ -38,4 +38,5 @@ button:disabled {
 hr {
 	color: var(--color-on-bg);
 	width: 100%;
+	border-width: 1px;
 }
