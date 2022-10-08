@@ -6,39 +6,25 @@
 	import InputFields from './InputFields.svelte';
 	import getTime from '$lib/time';
 
-	let note: Note = {
-		title: '',
-		note: '',
-		time: 0,
-	};
+	let note: Note = { note: '' } as Note;
 
 	let expand = false;
 
 	const onClose = () => {
 		expand = !expand;
-		note = {
-			title: '',
-			note: '',
-			time: 0,
-		};
+		note = {} as Note;
 	};
 
 	const onSubmit = async () => {
 		if ($isLoggedIn == true) {
 			let time: number = getTime();
 			note = {
-				title: note.title,
-				note: note.note,
-				time,
+				...note,
+				time
 			};
 
-			/* $notes = [note, ...$notes]; */
 			await addDoc(collection(db, 'users', $user.uid, 'notes'), note);
-			note = {
-				title: '',
-				note: '',
-				time: 0
-			};
+			note = {} as Note;
 			expand = !expand;
 		}
 	};

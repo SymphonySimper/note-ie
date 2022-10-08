@@ -38,6 +38,8 @@ button:disabled {
 hr {
 	color: var(--color-on-bg);
 	width: 100%;
-	border-width: 1px;
 	border-style: solid;
+	border-width: 0;
+	border-top-width: 2px;
+	border-radius: 1px;
 }

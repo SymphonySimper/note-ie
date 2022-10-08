@@ -7,10 +7,12 @@
 	export let onSubmit: () => void;
 	export let primaryButtonTitle: string = 'Add';
 
-	let lineCount: number;
+	let lineCount: number = 0;
 	let rows: number;
 	const setCount = () => {
-		lineCount = note.note.split('\n').length;
+		if (note.note != undefined) {
+			lineCount = note.note.split('\n').length;
+		}
 		if (lineCount > 20) {
 			rows = 20;
 		} else if (lineCount > 5) {

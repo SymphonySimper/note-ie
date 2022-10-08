@@ -7,21 +7,16 @@
 	import { Modals, closeModal } from 'svelte-modals';
 	import { browser } from '$app/environment';
 	import Profile from './Profile.svelte';
+	import type { User } from '$lib/types';
 
 	onAuthStateChanged(auth, (authUser) => {
 		if (!!authUser) {
-			$user = {
-				uid: authUser.uid,
-				displayName: authUser.displayName ?? '',
-				photo: authUser.photoURL ?? '',
-				email: authUser.email ?? ''
-			};
-
+			user.set({ ...authUser } as User);
 			browser && goto('/');
 		} else {
 			browser && goto('/signin');
 		}
-		$isLoggedIn = !!authUser;
+		isLoggedIn.set(!!authUser);
 	});
 </script>
 

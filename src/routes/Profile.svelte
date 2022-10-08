@@ -10,13 +10,8 @@
 	const logout = async () => {
 		try {
 			await signOut(auth);
-			$isLoggedIn = false;
-			$user = {
-				uid: '',
-				displayName: '',
-				photo: '',
-				email: ''
-			};
+			isLoggedIn.set(false);
+			user.reset();
 			browser && goto('/signin');
 		} catch (err) {
 			console.error(err);
@@ -26,7 +21,7 @@
 </script>
 
 <div class="pp">
-	<img src={$user.photo} alt={$user.displayName} on:click={() => (expand = !expand)} />
+	<img src={$user.photoURL} alt={$user.displayName} on:click={() => (expand = !expand)} />
 </div>
 {#if expand}
 	<div class="profile">
