@@ -35,13 +35,11 @@
 	});
 </script>
 
-<div class="container">
 {#if $isLoggedIn}
 	<nav>
 		<a href="/"> Note-ie </a>
 		<a on:click={logout} href="/signin">SignOut </a>
 	</nav>
-</div>
 {/if}
 <slot />
 
@@ -65,9 +63,6 @@
 		color: white;
 	}
 
-	.container {
-		padding: 1rem;
-	}
 	.backdrop {
 		position: fixed;
 		top: 0;

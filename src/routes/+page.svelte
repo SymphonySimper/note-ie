@@ -9,8 +9,6 @@
 		<AddNote />
 		<CardList />
 	</div>
-{:else}
-	<h1>Login to use the web app</h1>
 {/if}
 
 <style>
