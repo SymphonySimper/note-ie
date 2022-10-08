@@ -16,7 +16,7 @@
 		} else {
 			browser && goto('/signin');
 		}
-		$isLoggedIn = !!authUser;
+		isLoggedIn.set(!!authUser);
 	});
 </script>
 

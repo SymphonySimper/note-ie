@@ -10,7 +10,7 @@
 		try {
 			const res = await signInWithPopup(auth, provider);
 			user.set({ ...res.user } as User);
-			$isLoggedIn = true;
+			isLoggedIn.set(true);
 			goto('/');
 		} catch (err) {
 			console.log(err);
