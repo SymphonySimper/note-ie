@@ -22,18 +22,14 @@
 
 <style>
 	.card {
-		aspect-ratio: 1/1;
+		aspect-ratio: 1;
 		height: 16rem;
 		width: 16rem;
-		background-color: #111;
-		border: 1px solid #222;
-		border-radius: 0.5rem;
+		background-color: var(--color-bg);
+		border: var(--border);
+		border-radius: var(--border-radius);
 		/* overflow: hidden; */
-		padding: 1rem;
-	}
-
-	hr {
-		color: #222;
+		padding: var(--padding);
 	}
 
 	p {

@@ -61,9 +61,9 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		background-color: #111;
-		border-radius: 0.5rem;
-		border: 1px solid #222;
+		background-color: var(--color-bg);
+		border-radius: var(--border-radius);
+		border: var(--border);
 		padding: 1rem;
 	}
 
@@ -77,23 +77,18 @@
 	}
 
 	.close-btn {
-		background-color: #111;
-		border: 2px solid #222;
-	}
-
-	button:disabled {
-		background-color: #111;
-		color: #222;
+		background-color: var(--color-bg);
+		border: 2px solid var(--color-on-bg);
 	}
 
 	.input {
-		background-color: #222;
+		background-color: var(--color-on-bg);
 		border: none;
 		width: 50vw;
-		border-radius: 0.5rem;
-		color: white;
-		padding: 1rem;
-		border: 2px solid #222;
+		border-radius: var(--border-radius);
+		color: var(--color-fg);
+		padding: var(--padding);
+		border: 2px solid var(--color-on-bg);
 		font-family: sans-serif;
 		font-size: 1rem;
 
@@ -102,9 +97,9 @@
 	}
 
 	.input:focus {
-		border: 2px solid #333;
+		border: 2px solid var(--color-sec);
 		outline: none;
-		background-color: #111;
+		background-color: var(--color-bg);
 	}
 
 	textarea {

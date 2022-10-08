@@ -2,63 +2,36 @@
 	import './styles.css';
 	import { isLoggedIn, user } from '../stores/auth';
 	import { auth } from '../lib/firebase';
-	import { signOut, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+	import { onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { Modals, closeModal } from 'svelte-modals';
-
-	const loginWithGoogle = async () => {
-		try {
-			const provider = new GoogleAuthProvider();
-			const res = await signInWithPopup(auth, provider);
-			/* $user = res.user; */
-			$user = {
-				uid: res.user.uid,
-				displayName: res.user.displayName ?? ''
-			};
-			$isLoggedIn = true;
-			goto('/');
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	const logout = async () => {
-		try {
-			await signOut(auth);
-			$isLoggedIn = false;
-			$user = {
-				uid: '',
-				displayName: ''
-			};
-			/* goto('/'); */
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	import { browser } from '$app/environment';
+	import Profile from './Profile.svelte';
 
 	onAuthStateChanged(auth, (authUser) => {
 		if (!!authUser) {
 			$user = {
 				uid: authUser.uid,
-				displayName: authUser.displayName ?? ''
+				displayName: authUser.displayName ?? '',
+				photo: authUser.photoURL ?? '',
+				email: authUser.email ?? ''
 			};
+
+			browser && goto('/');
+		} else {
+			browser && goto('/signin');
 		}
 		$isLoggedIn = !!authUser;
 	});
 </script>
 
-<div class="container">
+{#if $isLoggedIn}
 	<nav>
 		<a href="/"> Note-ie </a>
-		{#if !$isLoggedIn}
-			<a href="/" on:click={loginWithGoogle}> SignIn </a>
-		{:else}
-			Notes by {$user.displayName}
-			<a href="/" on:click={logout}> SignOut </a>
-		{/if}
+		<Profile />
 	</nav>
-	<slot />
-</div>
+{/if}
+<slot />
 
 <Modals>
 	<div class="backdrop" slot="backdrop" on:click={closeModal} />
@@ -68,26 +41,25 @@
 	nav {
 		display: flex;
 		justify-content: space-between;
-		background-color: #222;
-		padding: 1rem;
-		border-radius: 0.5rem;
+		align-items: center;
+		background-color: var(--color-on-bg);
+		padding: 0 var(--padding);
+		border-radius: var(--border-radius);
 		position: sticky;
+		margin: var(--padding);
+		height: 4rem;
 	}
 
 	a {
 		text-decoration: none;
-		color: white;
-	}
-
-	.container {
-		padding: 1rem;
+		color: var(--color-fg);
 	}
 
 	.backdrop {
 		position: fixed;
 		top: 0;
 		left: 0;
-		background-color: #11111180;
+		background-color: var(--color-shadow);
 		width: 100vw;
 		height: 100vh;
 	}
