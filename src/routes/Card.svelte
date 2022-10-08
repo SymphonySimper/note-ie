@@ -1,12 +1,32 @@
 <script lang="ts">
-	export let note: Note;
+	import { db } from '$lib/firebase';
+	import { doc, getDoc, updateDoc } from 'firebase/firestore';
+	import { openModal, closeModal } from 'svelte-modals';
 
-	import type { Note } from '$lib/types';
-	import { openModal } from 'svelte-modals';
+	import type { Note, NoteWithId } from '$lib/types';
 	import InputFieldsModal from './InputFieldsModal.svelte';
+	import { user } from '../stores/auth';
 
-	const onSubmit = () => {
-		console.log('Close');
+	export let note: NoteWithId;
+
+	let fbNote: Partial<Note>;
+	const onSubmit = async () => {
+		const docRef = doc(db, 'users', $user.uid, 'notes', note.id);
+		await getDoc(docRef).then((res) => {
+			fbNote = {
+				title: res.data()?.title,
+				note: res.data()?.note
+			};
+		});
+
+		if (fbNote.title != note.title || fbNote.note != note.note) {
+			await updateDoc(docRef, {
+				title: note.title,
+				note: note.note
+			});
+		}
+
+		closeModal();
 	};
 
 	const handleClick = () => {

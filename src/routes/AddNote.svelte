@@ -2,7 +2,6 @@
 	import { addDoc, collection } from 'firebase/firestore';
 	import { db } from '../lib/firebase';
 	import { user, isLoggedIn } from '../stores/auth';
-	import { notes } from '../stores/notes';
 	import type { Note } from '$lib/types';
 	import InputFields from './InputFields.svelte';
 	import getTime from '$lib/time';
@@ -10,7 +9,7 @@
 	let note: Note = {
 		title: '',
 		note: '',
-		time: 0
+		time: 0,
 	};
 
 	let expand = false;
@@ -20,7 +19,7 @@
 		note = {
 			title: '',
 			note: '',
-			time: 0
+			time: 0,
 		};
 	};
 
@@ -30,10 +29,10 @@
 			note = {
 				title: note.title,
 				note: note.note,
-				time
+				time,
 			};
 
-			$notes = [note, ...$notes];
+			/* $notes = [note, ...$notes]; */
 			await addDoc(collection(db, 'users', $user.uid, 'notes'), note);
 			note = {
 				title: '',
