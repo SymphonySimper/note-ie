@@ -46,6 +46,7 @@
 		padding: 0 var(--padding);
 		border-radius: var(--border-radius);
 		position: sticky;
+		top: 1rem;
 		margin: var(--padding);
 		height: 4rem;
 	}

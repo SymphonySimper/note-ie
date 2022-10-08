@@ -69,4 +69,10 @@
 		border-radius: 0.5rem;
 		color: #888;
 	}
+
+	@media screen and (max-width: 810px) {
+		.fake-input {
+			width: 80vw;
+		}
+	}
 </style>
