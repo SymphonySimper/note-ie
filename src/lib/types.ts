@@ -3,3 +3,7 @@ export type Note = {
 	note: string
 	time: number
 }
+
+export interface NoteWithId extends Note {
+	id: string
+}
