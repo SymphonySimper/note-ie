@@ -48,8 +48,8 @@
 		align-items: center;
 	}
 	.email {
-		color: #aaa;
-		font-size: 0.8rem
+		color: var(--color-sec-txt);
+		font-size: 0.8rem;
 	}
 
 	img {
@@ -71,14 +71,9 @@
 		right: 0;
 		display: flex;
 		flex-direction: column;
-		border: 1px solid #222222;
-		border-radius: 0.5rem;
-		padding: 1rem;
-		background-color: #111;
-	}
-
-	hr {
-		width: 100%;
-		color: #222;
+		border: var(--border);
+		border-radius: var(--border-radius);
+		padding: var(--padding);
+		background-color: var(--color-bg);
 	}
 </style>

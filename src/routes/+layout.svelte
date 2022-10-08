@@ -42,24 +42,24 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		background-color: #222;
-		padding: 0 1rem;
-		border-radius: 0.5rem;
+		background-color: var(--color-on-bg);
+		padding: 0 var(--padding);
+		border-radius: var(--border-radius);
 		position: sticky;
-		margin: 1rem;
+		margin: var(--padding);
 		height: 4rem;
 	}
 
 	a {
 		text-decoration: none;
-		color: white;
+		color: var(--color-fg);
 	}
 
 	.backdrop {
 		position: fixed;
 		top: 0;
 		left: 0;
-		background-color: #11111180;
+		background-color: var(--color-shadow);
 		width: 100vw;
 		height: 100vh;
 	}
