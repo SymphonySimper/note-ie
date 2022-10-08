@@ -3,17 +3,13 @@
 	import { auth } from '$lib/firebase';
 	import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 	import { goto } from '$app/navigation';
+	import type { User } from '$lib/types';
 
 	const loginWithGoogle = async () => {
 		const provider = new GoogleAuthProvider();
 		try {
 			const res = await signInWithPopup(auth, provider);
-			$user = {
-				uid: res.user.uid,
-				displayName: res.user.displayName ?? '',
-				photo: res.user.photoURL ?? '',
-				email: res.user.email ?? ''
-			};
+			user.set({ ...res.user } as User);
 			$isLoggedIn = true;
 			goto('/');
 		} catch (err) {

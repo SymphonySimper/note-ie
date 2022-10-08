@@ -4,7 +4,7 @@
 	import { notes } from '../stores/notes';
 	import Card from './Card.svelte';
 	import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
-	import type { NoteWithId } from '$lib/types';
+	import type { NoteWithId, Note } from '$lib/types';
 	import { db } from '$lib/firebase';
 
 	import { user } from '../stores/auth';
@@ -12,15 +12,13 @@
 
 	const q = query(collection(db, 'users', $user.uid, 'notes'), orderBy('time'));
 	const unsub = onSnapshot(q, (querySnapshot) => {
-		$notes = [];
+		notes.reset();
 		querySnapshot.forEach((doc) => {
 			let note: NoteWithId = {
-				title: doc.data().title,
-				note: doc.data().note,
-				time: doc.data().time ?? 0,
+				...(doc.data() as Note),
 				id: doc.id
 			};
-			$notes = [note, ...$notes];
+			notes.add(note);
 		});
 	});
 
