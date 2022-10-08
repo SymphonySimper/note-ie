@@ -1,21 +1,23 @@
 <script lang="ts">
-	import { isLoggedIn, user } from '../stores/auth';
-	import { auth } from '../lib/firebase';
 	import { signOut } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 
+	import { auth } from '$lib/firebase';
+	import { isLoggedIn, user } from '$stores/auth';
+	import { notes } from '$stores/notes';
+
 	let expand = false;
 
 	const logout = async () => {
-		try {
-			await signOut(auth);
-			isLoggedIn.set(false);
-			user.reset();
-			browser && goto('/signin');
-		} catch (err) {
-			console.error(err);
-		}
+		await signOut(auth)
+			.then(() => {
+				isLoggedIn.set(false);
+				user.reset();
+				notes.reset();
+				browser && goto('/signin');
+			})
+			.catch((err) => console.error(err));
 		expand = !expand;
 	};
 </script>

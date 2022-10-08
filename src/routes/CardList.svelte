@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { flip } from 'svelte/animate';
-	import { fade } from 'svelte/transition';
-	import { notes } from '../stores/notes';
-	import Card from './Card.svelte';
 	import { collection, query, onSnapshot, orderBy } from 'firebase/firestore';
-	import type { NoteWithId, Note } from '$lib/types';
-	import { db } from '$lib/firebase';
-
-	import { user } from '../stores/auth';
 	import { onDestroy } from 'svelte';
 
+	import type { NoteWithId, Note } from '$lib/types';
+	import { db } from '$lib/firebase';
+	import { user } from '$stores/auth';
+	import { notes } from '$stores/notes';
+	import Card from './Card.svelte';
+
 	const q = query(collection(db, 'users', $user.uid, 'notes'), orderBy('time'));
-	const unsub = onSnapshot(q, (querySnapshot) => {
+	export const unsub = onSnapshot(q, (querySnapshot) => {
 		notes.reset();
 		querySnapshot.forEach((doc) => {
 			let note: NoteWithId = {
@@ -28,7 +26,7 @@
 <div>
 	{#if $notes.length != 0}
 		{#each $notes as note, id (id)}
-			<div transition:fade={{ duration: 400 }} animate:flip={{ duration: 400 }}>
+			<div>
 				<Card {note} />
 			</div>
 		{/each}

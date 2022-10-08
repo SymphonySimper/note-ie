@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { addDoc, collection } from 'firebase/firestore';
-	import { db } from '../lib/firebase';
-	import { user, isLoggedIn } from '../stores/auth';
+
+	import { user, isLoggedIn } from '$stores/auth';
+	import { db } from '$lib/firebase';
 	import type { Note } from '$lib/types';
-	import InputFields from './InputFields.svelte';
 	import getTime from '$lib/time';
+	import InputFields from './InputFields.svelte';
 
 	let note: Note = { note: '' } as Note;
 

@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { isLoggedIn, user } from '../../stores/auth';
-	import { auth } from '$lib/firebase';
 	import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 	import { goto } from '$app/navigation';
+
+	import { auth } from '$lib/firebase';
 	import type { User } from '$lib/types';
+	import { isLoggedIn, user } from '$stores/auth';
 
 	const loginWithGoogle = async () => {
 		const provider = new GoogleAuthProvider();

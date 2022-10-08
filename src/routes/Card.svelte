@@ -5,7 +5,7 @@
 
 	import type { Note, NoteWithId } from '$lib/types';
 	import InputFieldsModal from './InputFieldsModal.svelte';
-	import { user } from '../stores/auth';
+	import { user } from '$stores/auth';
 
 	export let note: NoteWithId;
 

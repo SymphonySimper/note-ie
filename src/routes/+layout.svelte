@@ -1,13 +1,14 @@
 <script lang="ts">
 	import './styles.css';
-	import { isLoggedIn, user } from '../stores/auth';
-	import { auth } from '../lib/firebase';
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { Modals, closeModal } from 'svelte-modals';
 	import { browser } from '$app/environment';
-	import Profile from './Profile.svelte';
+
+	import { auth } from '$lib/firebase';
 	import type { User } from '$lib/types';
+	import { isLoggedIn, user } from '$stores/auth';
+	import Profile from './Profile.svelte';
 
 	onAuthStateChanged(auth, (authUser) => {
 		if (!!authUser) {

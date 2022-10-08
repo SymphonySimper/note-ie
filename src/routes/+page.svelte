@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isLoggedIn } from '../stores/auth';
+	import { isLoggedIn } from '$stores/auth';
 	import CardList from './CardList.svelte';
 	import AddNote from './AddNote.svelte';
 </script>

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { Note } from '$lib/types';
 	import { afterUpdate } from 'svelte';
+
+	import type { Note } from '$lib/types';
 
 	export let note: Note;
 	export let onClose: () => void;
