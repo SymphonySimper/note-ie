@@ -105,4 +105,15 @@
 	textarea {
 		resize: none;
 	}
+
+	@media screen and (max-width: 810px) {
+		.input {
+			width: 80vw;
+		}
+	}
+	@media screen and (max-width: 410px) {
+		.input {
+			width: 70vw;
+		}
+	}
 </style>
