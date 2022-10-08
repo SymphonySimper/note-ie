@@ -10,7 +10,9 @@
 			const res = await signInWithPopup(auth, provider);
 			$user = {
 				uid: res.user.uid,
-				displayName: res.user.displayName ?? ''
+				displayName: res.user.displayName ?? '',
+				photo: res.user.photoURL ?? '',
+				email: res.user.email ?? ''
 			};
 			$isLoggedIn = true;
 			goto('/');

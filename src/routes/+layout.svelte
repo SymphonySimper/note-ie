@@ -2,29 +2,19 @@
 	import './styles.css';
 	import { isLoggedIn, user } from '../stores/auth';
 	import { auth } from '../lib/firebase';
-	import { signOut, onAuthStateChanged } from 'firebase/auth';
+	import { onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { Modals, closeModal } from 'svelte-modals';
 	import { browser } from '$app/environment';
-
-	const logout = async () => {
-		try {
-			await signOut(auth);
-			$isLoggedIn = false;
-			$user = {
-				uid: '',
-				displayName: ''
-			};
-		} catch (err) {
-			console.error(err);
-		}
-	};
+	import Profile from './Profile.svelte';
 
 	onAuthStateChanged(auth, (authUser) => {
 		if (!!authUser) {
 			$user = {
 				uid: authUser.uid,
-				displayName: authUser.displayName ?? ''
+				displayName: authUser.displayName ?? '',
+				photo: authUser.photoURL ?? '',
+				email: authUser.email ?? ''
 			};
 
 			browser && goto('/');
@@ -38,7 +28,7 @@
 {#if $isLoggedIn}
 	<nav>
 		<a href="/"> Note-ie </a>
-		<a on:click={logout} href="/signin">SignOut </a>
+		<Profile />
 	</nav>
 {/if}
 <slot />
@@ -51,11 +41,13 @@
 	nav {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		background-color: #222;
-		padding: 1rem;
+		padding: 0 1rem;
 		border-radius: 0.5rem;
 		position: sticky;
 		margin: 1rem;
+		height: 4rem;
 	}
 
 	a {
