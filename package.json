@@ -33,6 +33,6 @@
 	"type": "module",
 	"dependencies": {
 		"firebase": "^9.10.0",
-		"svelte-modals": "^1.2.0"
+		"svelte-modals": "^2.0.0-beta.2"
 	}
 }
