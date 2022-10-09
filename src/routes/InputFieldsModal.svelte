@@ -1,24 +1,37 @@
 <script lang="ts">
-	import { closeModal } from 'svelte-modals';
+	import { closeAllModals, createModalEventDispatcher } from 'svelte-modals';
 
 	import InputFields from './InputFields.svelte';
 	import type { Note } from '$lib/types';
 
 	export let isOpen: boolean;
-	/* export let onClose: () => void; */
 	export let onSubmit: () => void;
+	export let onDelete: () => void;
 	export let note: Note;
 	export let primaryButtonTitle: string = 'Update';
 
+	const dispatch = createModalEventDispatcher();
+
 	const onModalClose = () => {
-		/* onClose(); */
-		closeModal();
+		/* closeModal(); */
+		closeAllModals();
+	};
+
+	const onPin = (e: CustomEvent) => {
+		dispatch('pin', { isPinned: e.detail.isPinned });
 	};
 </script>
 
 {#if isOpen}
 	<div class="modal">
-		<InputFields onClose={onModalClose} {onSubmit} {note} {primaryButtonTitle} />
+		<InputFields
+			onClose={onModalClose}
+			{onSubmit}
+			{note}
+			{primaryButtonTitle}
+			{onDelete}
+			on:pin={onPin}
+		/>
 	</div>
 {/if}
 
@@ -35,5 +48,6 @@
 
 		/* allow click-through to backdrop */
 		pointer-events: none;
+		z-index: 11;
 	}
 </style>

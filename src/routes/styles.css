@@ -7,6 +7,7 @@ html {
 	--color-on-bg: #222;
 	--color-sec: #333;
 	--color-sec-txt: #aaa;
+	--color-red: #ff3333;
 	--color-shadow: rgba(17, 17, 17, 0.8);
 	--border: 1px solid var(--color-on-bg);
 	--border-radius: 0.5rem;
@@ -21,7 +22,8 @@ html {
 button {
 	background-color: var(--color-on-bg);
 	color: var(--color-fg);
-	padding: var(--padding);
+	padding: 0 var(--padding);
+	height: 3rem;
 	border: none;
 	border-radius: var(--border-radius);
 	cursor: pointer;
@@ -44,4 +46,23 @@ hr {
 	border-width: 0;
 	border-top-width: 2px;
 	border-radius: 1px;
+}
+
+.icon-container {
+	background-color: var(--color-bg);
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	aspect-ratio: 1;
+	height: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: var(--border);
+	cursor: pointer;
+}
+.icon-container:hover {
+	background-color: var(--color-on-bg);
+}
+.icon {
+	fill: var(--color-fg);
 }

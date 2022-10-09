@@ -66,5 +66,6 @@
 		background-color: var(--color-shadow);
 		width: 100vw;
 		height: 100vh;
+		z-index: 10;
 	}
 </style>

@@ -11,13 +11,20 @@
 	const q = query(collection(db, 'users', $user.uid, 'notes'), orderBy('time'));
 	export const unsub = onSnapshot(q, (querySnapshot) => {
 		notes.reset();
+		let pinnedNotes: NoteWithId[] = [];
+		let normalNotes: NoteWithId[] = [];
 		querySnapshot.forEach((doc) => {
 			let note: NoteWithId = {
 				...(doc.data() as Note),
 				id: doc.id
 			};
-			notes.add(note);
+			if (note.isPinned) {
+				pinnedNotes.push(note);
+			} else {
+				normalNotes.push(note);
+			}
 		});
+		notes.combine(pinnedNotes.reverse(), normalNotes.reverse());
 	});
 
 	onDestroy(unsub);

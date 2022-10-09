@@ -55,6 +55,7 @@
 		border-radius: 100%;
 		overflow: clip;
 		transition: height 400ms ease;
+		cursor: pointer;
 	}
 
 	img:hover {

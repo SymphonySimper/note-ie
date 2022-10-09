@@ -2,6 +2,7 @@ export type Note = {
 	title: string
 	note: string
 	time: number
+	isPinned: boolean
 }
 
 export interface NoteWithId extends Note {
@@ -14,4 +15,3 @@ export type User = {
 	photoURL: string
 	email: string
 }
-
