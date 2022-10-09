@@ -24,11 +24,13 @@ button {
 	padding: var(--padding);
 	border: none;
 	border-radius: var(--border-radius);
+	cursor: pointer;
 }
 
 button:disabled {
 	background-color: var(--color-bg);
 	color: var(--color-on-bg);
+	cursor: default;
 }
 
 .container {
