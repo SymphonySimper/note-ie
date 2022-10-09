@@ -11,9 +11,13 @@
 
 	let expand = false;
 
+	const resetNote = () => {
+		note = { note: '' } as Note;
+	};
+
 	const onClose = () => {
 		expand = !expand;
-		note = {} as Note;
+		resetNote();
 	};
 
 	const onSubmit = async () => {
@@ -25,7 +29,7 @@
 			};
 
 			await addDoc(collection(db, 'users', $user.uid, 'notes'), note);
-			note = {} as Note;
+			resetNote();
 			expand = !expand;
 		}
 	};
