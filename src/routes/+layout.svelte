@@ -8,8 +8,11 @@
 	import { auth } from '$lib/firebase';
 	import type { User } from '$lib/types';
 	import { isLoggedIn, user } from '$stores/auth';
+	import isLoading from '$stores/loading';
 	import Profile from './Profile.svelte';
+	import LoadingScreen from './LoadingScreen.svelte';
 
+	isLoading.display();
 	onAuthStateChanged(auth, (authUser) => {
 		if (!!authUser) {
 			user.set({ ...authUser } as User);
@@ -21,13 +24,17 @@
 	});
 </script>
 
-{#if $isLoggedIn}
-	<nav>
-		<a href="/"> Note-ie </a>
-		<Profile />
-	</nav>
+{#if $isLoading}
+	<LoadingScreen />
+{:else}
+	{#if $isLoggedIn}
+		<nav>
+			<a href="/"> Note-ie </a>
+			<Profile />
+		</nav>
+	{/if}
+	<slot />
 {/if}
-<slot />
 
 <Modals>
 	<div class="backdrop" slot="backdrop" on:click={closeModal} />
