@@ -5,8 +5,9 @@ function createIsLoading() {
 	return {
 		subscribe,
 		display: () => {
-			set(true)
-			setTimeout(() => set(false), 4500)
+			/* set(true) */
+			/* setTimeout(() => set(false), 4500) */
+			set(false)
 		}
 	}
 }

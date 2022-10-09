@@ -2,11 +2,15 @@
 	import { afterUpdate } from 'svelte';
 
 	import type { Note } from '$lib/types';
+	import PinIconButton from './PinIconButton.svelte';
+	import DeleteIconButton from './DeleteIconButton.svelte';
 
 	export let note: Note;
 	export let onClose: () => void;
 	export let onSubmit: () => void;
 	export let primaryButtonTitle: string = 'Add';
+	/* export let onPin: (e: CustomEvent) => void; */
+	export let onDelete: () => void;
 
 	let lineCount: number = 0;
 	let rows: number;
@@ -44,10 +48,18 @@
 				wrap="hard"
 			/>
 			<div class="buttons">
-				<button type="reset" on:click={onClose} class="close-btn"> Close </button>
-				<button type="submit" disabled={note.note.length == 0 ? true : false}>
-					{primaryButtonTitle}
-				</button>
+				<div class="buttons">
+					<PinIconButton isPinned={note.isPinned} on:pin />
+					{#if primaryButtonTitle == 'Update'}
+						<DeleteIconButton {onDelete} />
+					{/if}
+				</div>
+				<div class="buttons">
+					<button type="reset" on:click={onClose} class="close-btn"> Close </button>
+					<button type="submit" disabled={note.note.length == 0 ? true : false}>
+						{primaryButtonTitle}
+					</button>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -58,6 +70,7 @@
 		display: flex;
 		gap: 1rem;
 		justify-content: center;
+		width: 50vw;
 	}
 
 	.form {
@@ -68,11 +81,13 @@
 		border-radius: var(--border-radius);
 		border: var(--border);
 		padding: 1rem;
+		width: calc(100% - 2rem);
 	}
 
 	.buttons {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
+		align-items: center;
 		gap: 1rem;
 
 		/* required by svelte-modals to enable on:click */
@@ -87,7 +102,7 @@
 	.input {
 		background-color: var(--color-on-bg);
 		border: none;
-		width: 50vw;
+		width: inherit;
 		border-radius: var(--border-radius);
 		color: var(--color-fg);
 		padding: var(--padding);
@@ -109,14 +124,23 @@
 		resize: none;
 	}
 
+	@media screen and (max-width: 1000px) {
+		.add-note {
+			width: 70vw;
+		}
+	}
 	@media screen and (max-width: 810px) {
-		.input {
+		.add-note {
 			width: 80vw;
 		}
 	}
-	@media screen and (max-width: 410px) {
-		.input {
-			width: 70vw;
+	@media screen and (max-width: 480px) {
+		.add-note {
+			width: 95vw;
+		}
+
+		.buttons {
+			gap: 0.5rem;
 		}
 	}
 </style>

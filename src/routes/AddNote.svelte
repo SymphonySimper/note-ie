@@ -7,12 +7,12 @@
 	import getTime from '$lib/time';
 	import InputFields from './InputFields.svelte';
 
-	let note: Note = { note: '' } as Note;
+	let note: Note = { note: '', isPinned: false } as Note;
 
 	let expand = false;
 
 	const resetNote = () => {
-		note = { note: '' } as Note;
+		note = { note: '', isPinned: false } as Note;
 	};
 
 	const onClose = () => {
@@ -33,6 +33,14 @@
 			expand = !expand;
 		}
 	};
+
+	const onPin = (e: CustomEvent) => {
+		note = { ...note, isPinned: e.detail.isPinned } as Note;
+	};
+
+	const onDelete = () => {
+		console.log('bruv');
+	};
 </script>
 
 <div>
@@ -40,7 +48,7 @@
 		{#if !expand}
 			<div on:click={() => (expand = true)} class="fake-input">Add a note</div>
 		{:else}
-			<InputFields {onSubmit} {onClose} {note} />
+			<InputFields {onSubmit} {onClose} {note} on:pin={onPin} {onDelete} />
 		{/if}
 	</div>
 </div>

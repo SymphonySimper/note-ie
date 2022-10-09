@@ -6,6 +6,7 @@ function createNotes() {
 	return {
 		subscribe,
 		add: (note: NoteWithId) => update((ns) => [note, ...ns]),
+		combine: (ns1: NoteWithId[], ns2: NoteWithId[]) => set([...ns1, ...ns2]),
 		reset: () => set([])
 	}
 }
