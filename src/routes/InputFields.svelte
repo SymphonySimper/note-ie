@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, createEventDispatcher } from 'svelte';
 
 	import type { Note } from '$lib/types';
 	import PinIconButton from './PinIconButton.svelte';
@@ -11,6 +11,7 @@
 	export let primaryButtonTitle: string = 'Add';
 	/* export let onPin: (e: CustomEvent) => void; */
 	export let onDelete: () => void;
+	export let showFakeInput: boolean = false;
 
 	let lineCount: number = 0;
 	let rows: number;
@@ -27,41 +28,57 @@
 		}
 	};
 	afterUpdate(setCount);
+
+	const dispatch = createEventDispatcher();
+	const onFakeInputClick = () => {
+		dispatch('expand', !showFakeInput);
+	};
 </script>
 
 <div>
 	<div class="add-note">
-		<form on:submit|preventDefault={onSubmit} class="form">
+		{#if !showFakeInput}
+			<form on:submit|preventDefault={onSubmit} class="form">
+				<input
+					class="input"
+					type="text"
+					bind:value={note.title}
+					placeholder="Add a title"
+					autofocus
+				/>
+				<textarea
+					class="input"
+					type="text"
+					bind:value={note.note}
+					placeholder="Add a note"
+					{rows}
+					wrap="hard"
+				/>
+				<div class="buttons">
+					<div class="buttons">
+						<PinIconButton isPinned={note.isPinned} on:pin />
+						{#if primaryButtonTitle == 'Update'}
+							<DeleteIconButton {onDelete} />
+						{/if}
+					</div>
+					<div class="buttons">
+						<button type="reset" on:click={onClose} class="close-btn"> Close </button>
+						<button type="submit" disabled={note.note.length == 0 ? true : false}>
+							{primaryButtonTitle}
+						</button>
+					</div>
+				</div>
+			</form>
+		{:else}
 			<input
+				on:click={onFakeInputClick}
 				class="input"
+				id="fake-input"
 				type="text"
-				bind:value={note.title}
+				readonly
 				placeholder="Add a title"
-				autofocus
 			/>
-			<textarea
-				class="input"
-				type="text"
-				bind:value={note.note}
-				placeholder="Add a note"
-				{rows}
-				wrap="hard"
-			/>
-			<div class="buttons">
-				<div class="buttons">
-					<PinIconButton isPinned={note.isPinned} on:pin />
-					{#if primaryButtonTitle == 'Update'}
-						<DeleteIconButton {onDelete} />
-					{/if}
-				</div>
-				<div class="buttons">
-					<button type="reset" on:click={onClose} class="close-btn"> Close </button>
-					<button type="submit" disabled={note.note.length == 0 ? true : false}>
-						{primaryButtonTitle}
-					</button>
-				</div>
-			</div>
-		</form>
+		{/if}
 	</div>
 </div>
 
@@ -136,7 +153,7 @@
 	}
 	@media screen and (max-width: 480px) {
 		.add-note {
-			width: 95vw;
+			width: calc(100vw - 2rem);
 		}
 
 		.buttons {

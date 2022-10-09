@@ -8,8 +8,7 @@
 	import InputFields from './InputFields.svelte';
 
 	let note: Note = { note: '', isPinned: false } as Note;
-
-	let expand = false;
+	let expand = true;
 
 	const resetNote = () => {
 		note = { note: '', isPinned: false } as Note;
@@ -18,6 +17,7 @@
 	const onClose = () => {
 		expand = !expand;
 		resetNote();
+		console.log('here: ' + expand);
 	};
 
 	const onSubmit = async () => {
@@ -28,9 +28,9 @@
 				time
 			};
 
+			expand = !expand;
 			await addDoc(collection(db, 'users', $user.uid, 'notes'), note);
 			resetNote();
-			expand = !expand;
 		}
 	};
 
@@ -41,16 +41,29 @@
 	const onDelete = () => {
 		console.log('bruv');
 	};
+
+	const onExpand = (e: CustomEvent) => {
+		expand = e.detail;
+	};
 </script>
 
-<div>
-	<div class="add-note">
-		{#if !expand}
-			<div on:click={() => (expand = true)} class="fake-input">Add a note</div>
-		{:else}
-			<InputFields {onSubmit} {onClose} {note} on:pin={onPin} {onDelete} />
-		{/if}
-	</div>
+<div class="add-note">
+	<!-- <div class="add-note"> -->
+	<!-- 	{#if !expand} -->
+	<!-- 	 <div on:click={() => (expand = true)} class="fake-input">Add a note</div> -->
+	<!-- 		<input on:click={() => (expand = true)} class="input">Add a note</input>  -->
+	<!-- 	{:else} -->
+	<!-- 	{/if} -->
+	<!-- </div> -->
+	<InputFields
+		{onSubmit}
+		{onClose}
+		{note}
+		on:pin={onPin}
+		{onDelete}
+		showFakeInput={expand}
+		on:expand={onExpand}
+	/>
 </div>
 
 <style>
@@ -60,17 +73,17 @@
 		justify-content: center;
 	}
 
-	.fake-input {
-		background-color: #222;
-		width: 50vw;
-		padding: 1rem;
-		border-radius: 0.5rem;
-		color: #888;
-	}
-
-	@media screen and (max-width: 810px) {
-		.fake-input {
-			width: 80vw;
-		}
-	}
+	/* .fake-input { */
+	/* 	background-color: #222; */
+	/* 	width: 50vw; */
+	/* 	padding: 1rem; */
+	/* 	border-radius: 0.5rem; */
+	/* 	color: #888; */
+	/* } */
+	/**/
+	/* @media screen and (max-width: 810px) { */
+	/* 	.fake-input { */
+	/* 		width: 80vw; */
+	/* 	} */
+	/* } */
 </style>
